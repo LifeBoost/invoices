@@ -24,7 +24,7 @@ public class CompaniesController: AbstractController
     {
         var company = await _mediator.Send(
             new CreateCompanyCommand(
-                GetAuthorizationToken(),
+                GetUserId(),
                 request.Name,
                 request.IdentificationNumber,
                 request.Email,

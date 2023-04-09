@@ -1,26 +1,20 @@
 ﻿using System.Security.Authentication;
+using Domain.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Configuration;
 
 public abstract class AbstractController : Controller
 {
-    protected string GetAuthorizationToken()
+    protected UserId GetUserId()
     {
-        var authorizationHeaders = Request.Headers.Authorization;
+        HttpContext.Items.TryGetValue("UserId", out var userId);
 
-        if (authorizationHeaders.Count == 0)
+        if (userId == null)
         {
             throw new AuthenticationException();
         }
 
-        var authorizationHeader = authorizationHeaders[0];
-
-        if (authorizationHeader == null)
-        {
-            throw new AuthenticationException();
-        }
-
-        return authorizationHeader.Replace("Bearer ", "");
+        return (UserId)userId;
     }
 }

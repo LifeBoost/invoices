@@ -1,4 +1,5 @@
 ﻿using Domain.Addresses;
+using Domain.Companies.Rules;
 using Domain.SeedWork;
 using Domain.Users;
 
@@ -13,7 +14,7 @@ public class Company : Entity, IAggregateRoot
     public string? Email { get; private set; }
     public string? PhoneNumber { get; private set; }
     public bool IsVatPayer { get; private set; }
-    public int? VatRejectionReason { get; private set; }
+    public VatRejectionReason? VatRejectionReason { get; private set; }
     public Address Address { get; private set; }
 
     private Company(
@@ -23,7 +24,7 @@ public class Company : Entity, IAggregateRoot
         string? email,
         string? phoneNumber,
         bool isVatPayer,
-        int? vatRejectionReason,
+        VatRejectionReason? vatRejectionReason,
         Address address
     )
     {
@@ -45,11 +46,12 @@ public class Company : Entity, IAggregateRoot
         string? email,
         string? phoneNumber,
         bool isVatPayer,
-        int? vatRejectionReason,
-        Address address
+        VatRejectionReason? vatRejectionReason,
+        Address address,
+        ICompanyUniquenessChecker companyUniquenessChecker
     )
     {
-        return new Company(
+        var company = new Company(
             userId,
             name,
             identificationNumber,
@@ -59,5 +61,10 @@ public class Company : Entity, IAggregateRoot
             vatRejectionReason,
             address
         );
+        
+        CheckRule(new VatRejectionMustBeDefinedWhenCompanyIsNotVatPayerRule(company));
+        CheckRule(new CompanyNameAndIdentificationNumberMustBeUniqueRule(companyUniquenessChecker, company));
+
+        return company;
     }
 }
