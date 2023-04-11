@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using Dapper;
 using Domain.Companies;
+using Domain.Users;
 using Infrastructure.Database;
 using Infrastructure.Domain.Addresses;
 
@@ -52,5 +53,16 @@ public class CompanyRepository : ICompanyRepository
 
         using var connection = _context.CreateConnection();
         await connection.ExecuteAsync(query, parameters);
+    }
+
+    public async Task DeleteAsync(CompanyId id, UserId userId)
+    {
+        const string query = @"
+            DELETE FROM companies WHERE id = @Id AND users_id = @UserId;
+        ";
+
+        using var connection = _context.CreateConnection();
+
+        await connection.ExecuteAsync(query, new { Id = id.Value.ToString(), UserId = userId.Value.ToString() });
     }
 }

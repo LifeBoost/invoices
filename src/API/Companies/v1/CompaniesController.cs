@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using API.Configuration;
 using Application.Companies.CreateCompany;
+using Application.Companies.DeleteCompany;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,5 +39,15 @@ public class CompaniesController: AbstractController
         );
         
         return Created(string.Empty, company);
+    }
+
+    [Route("{companyId:guid}")]
+    [HttpDelete]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    public async Task<IActionResult> DeleteCompany(Guid companyId)
+    {
+        await _mediator.Send(new DeleteCompanyCommand(companyId, GetUserId()));
+        
+        return NoContent();
     }
 }
