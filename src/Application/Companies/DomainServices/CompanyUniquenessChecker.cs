@@ -13,14 +13,26 @@ public class CompanyUniquenessChecker : ICompanyUniquenessChecker
         _context = context;
     }
     
-    public bool IsUnique(string name, string identificationNumber)
+    public bool IsUniqueName(string name)
     {
         const string sql = @"
-            SELECT 1 FROM companies WHERE name = @Name OR identification_number = @IdentificationNumber;
+            SELECT 1 FROM companies WHERE name = @Name;
         ";
         using var connection = _context.CreateConnection();
 
-        var result = connection.QueryFirstOrDefault<int?>(sql, new { Name = name, IdentificationNumber = identificationNumber });
+        var result = connection.QueryFirstOrDefault<int?>(sql, new { Name = name});
+
+        return result == null;
+    }
+    
+    public bool IsUniqueIdentificationNumber(string identificationNumber)
+    {
+        const string sql = @"
+            SELECT 1 FROM companies WHERE identification_number = @IdentificationNumber;
+        ";
+        using var connection = _context.CreateConnection();
+
+        var result = connection.QueryFirstOrDefault<int?>(sql, new { IdentificationNumber = identificationNumber});
 
         return result == null;
     }

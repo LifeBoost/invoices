@@ -15,7 +15,30 @@ public class Company : Entity, IAggregateRoot
     public string? PhoneNumber { get; private set; }
     public bool IsVatPayer { get; private set; }
     public VatRejectionReason? VatRejectionReason { get; private set; }
-    public Address Address { get; private set; }
+    public Address Address { get; set; }
+
+    public Company(
+        CompanyId companyId,
+        UserId userId,
+        string name,
+        string identificationNumber,
+        string? email,
+        string? phoneNumber,
+        bool isVatPayer,
+        VatRejectionReason? vatRejectionReason,
+        Address address
+    )
+    {
+        Id = companyId;
+        UserId = userId;
+        Name = name;
+        IdentificationNumber = identificationNumber;
+        Email = email;
+        PhoneNumber = phoneNumber;
+        IsVatPayer = isVatPayer;
+        VatRejectionReason = vatRejectionReason;
+        Address = address;
+    }
 
     private Company(
         UserId userId,
@@ -63,8 +86,34 @@ public class Company : Entity, IAggregateRoot
         );
         
         CheckRule(new VatRejectionMustBeDefinedWhenCompanyIsNotVatPayerRule(company));
-        CheckRule(new CompanyNameAndIdentificationNumberMustBeUniqueRule(companyUniquenessChecker, company));
+        CheckRule(new CompanyNameMustBeUniqueRule(companyUniquenessChecker, company));
+        CheckRule(new CompanyIdentificationNumberMustBeUniqueRule(companyUniquenessChecker, company));
 
         return company;
+    }
+
+    public void Update(
+        string name,
+        string identificationNumber,
+        string? email,
+        string? phoneNumber,
+        bool isVatPayer,
+        VatRejectionReason? vatRejectionReason,
+        ICompanyUniquenessChecker companyUniquenessChecker
+    )
+    {
+        var isNameWasChanged = Name != name;
+        var isIdentificationNumberWasChanged = IdentificationNumber != identificationNumber;
+
+        Name = name;
+        IdentificationNumber = identificationNumber;
+        Email = email;
+        PhoneNumber = phoneNumber;
+        IsVatPayer = isVatPayer;
+        VatRejectionReason = vatRejectionReason;
+
+        CheckRule(new VatRejectionMustBeDefinedWhenCompanyIsNotVatPayerRule(this));
+        if (isNameWasChanged) CheckRule(new CompanyNameMustBeUniqueRule(companyUniquenessChecker, this));
+        if (isIdentificationNumberWasChanged) CheckRule(new CompanyIdentificationNumberMustBeUniqueRule(companyUniquenessChecker, this));
     }
 }
