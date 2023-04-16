@@ -11,9 +11,9 @@ public class DeleteCompanyCommandHandler : ICommandHandler<DeleteCompanyCommand>
     {
         _companyRepository = companyRepository;
     }
-    
+
     public async Task Handle(DeleteCompanyCommand request, CancellationToken cancellationToken)
     {
-        await _companyRepository.DeleteAsync(new CompanyId(request.Id), request.UserId);
+        _companyRepository.DeleteAsync(request.Id, request.UserId);
     }
 }

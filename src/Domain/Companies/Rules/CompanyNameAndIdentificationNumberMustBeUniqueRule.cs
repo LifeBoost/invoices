@@ -2,18 +2,34 @@
 
 namespace Domain.Companies.Rules;
 
-public class CompanyNameAndIdentificationNumberMustBeUniqueRule : IBusinessRule
+public class CompanyNameMustBeUniqueRule : IBusinessRule
 {
     private readonly ICompanyUniquenessChecker _companyUniquenessChecker;
     private readonly Company _company;
     
-    public CompanyNameAndIdentificationNumberMustBeUniqueRule(ICompanyUniquenessChecker companyUniquenessChecker, Company company)
+    public CompanyNameMustBeUniqueRule(ICompanyUniquenessChecker companyUniquenessChecker, Company company)
     {
         _companyUniquenessChecker = companyUniquenessChecker;
         _company = company;
     }
 
-    public bool IsBroken() => !_companyUniquenessChecker.IsUnique(_company.Name, _company.IdentificationNumber);
+    public bool IsBroken() => !_companyUniquenessChecker.IsUniqueName(_company.Name);
 
-    public string Message => "Company with current name or identification number already exists";
+    public string Message => "Company with current name already exists";
+}
+
+public class CompanyIdentificationNumberMustBeUniqueRule : IBusinessRule
+{
+    private readonly ICompanyUniquenessChecker _companyUniquenessChecker;
+    private readonly Company _company;
+    
+    public CompanyIdentificationNumberMustBeUniqueRule(ICompanyUniquenessChecker companyUniquenessChecker, Company company)
+    {
+        _companyUniquenessChecker = companyUniquenessChecker;
+        _company = company;
+    }
+
+    public bool IsBroken() => !_companyUniquenessChecker.IsUniqueIdentificationNumber(_company.IdentificationNumber);
+
+    public string Message => "Company with current identification number already exists";
 }

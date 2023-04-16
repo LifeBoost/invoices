@@ -25,5 +25,5 @@ create table if not exists companies
     created_at timestamp default now() not null,
     updated_at timestamp,
     constraint companies_pk primary key (`id`),
-    constraint companies_addresses_id_fk foreign key (`addresses_id`) references addresses (`id`)
+    constraint companies_addresses_id_fk foreign key (`addresses_id`) references addresses (`id`) ON DELETE CASCADE
 )

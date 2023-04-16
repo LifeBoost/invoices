@@ -2,5 +2,7 @@
 
 public interface ICompanyUniquenessChecker
 {
-    public bool IsUnique(string name, string identificationNumber);
+    public bool IsUniqueName(string name);
+
+    public bool IsUniqueIdentificationNumber(string identificationNumber);
 }

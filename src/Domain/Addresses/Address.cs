@@ -7,6 +7,14 @@ public class Address
     public string City { get; private set; }
     public string ZipCode { get; private set; }
 
+    public Address(AddressId id, string street, string city, string zipCode)
+    {
+        Id = id;
+        Street = street;
+        City = city;
+        ZipCode = zipCode;
+    }
+
     private Address(string street, string city, string zipCode)
     {
         this.Id = new AddressId(Guid.NewGuid());
@@ -18,5 +26,12 @@ public class Address
     public static Address Create(string street, string city, string zipCode)
     {
         return new Address(street, city, zipCode);
+    }
+
+    public void Update(string street, string city, string zipCode)
+    {
+        Street = street;
+        City = city;
+        ZipCode = zipCode;
     }
 }
