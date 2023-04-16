@@ -49,16 +49,6 @@ public class CompaniesController: AbstractController
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> DeleteCompany(Guid companyId)
     {
-        await _mediator.Send(new DeleteCompanyCommand(companyId, GetUserId()));
-        
-        return NoContent();
-    }
-
-    [Route("{companyId:guid}")]
-    [HttpDelete]
-    [ProducesResponseType((int)HttpStatusCode.NoContent)]
-    public async Task<IActionResult> DeleteCompany(Guid companyId)
-    {
         await _mediator.Send(new DeleteCompanyCommand(new CompanyId(companyId), GetUserId()));
 
         return NoContent();

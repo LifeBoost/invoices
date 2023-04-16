@@ -94,16 +94,6 @@ public class CompanyRepository : ICompanyRepository
         await connection.ExecuteAsync(query, parameters);
     }
 
-    public async Task DeleteAsync(CompanyId id, UserId userId)
-    {
-        const string query = @"
-            DELETE FROM companies WHERE id = @Id AND users_id = @UserId;
-        ";
-
-        using var connection = _context.CreateConnection();
-        await connection.ExecuteAsync(query, new { Id = id, UserId = userId });
-    }
-
     public async Task SaveAsync(Company company)
     {
         const string query = @"
