@@ -126,12 +126,25 @@ public class CompanyRepository : ICompanyRepository
 
     public async Task DeleteAsync(CompanyId id, UserId userId)
     {
+        const string addressIdQuery = @"
+            SELECT addresses_id AS AddressId FROM companies WHERE id = @Id AND users_id = @UserId;
+        ";
+
         const string query = @"
             DELETE FROM companies WHERE id = @Id AND users_id = @UserId;
+            DELETE FROM addresses WHERE id = @AddressId AND users_id = @UserId;
         ";
+
+        var parameters = new DynamicParameters();
+        parameters.Add("Id", id.Value.ToString(), DbType.String);
+        parameters.Add("UserId", userId.Value.ToString(), DbType.String);
 
         using var connection = _context.CreateConnection();
 
-        await connection.ExecuteAsync(query, new { Id = id.Value.ToString(), UserId = userId.Value.ToString() });
+        var addressId = await connection.QuerySingleAsync(addressIdQuery, parameters);
+
+        parameters.Add("AddressId", addressId.AddressId, DbType.String);
+
+        await connection.ExecuteAsync(query, parameters);
     }
 }
