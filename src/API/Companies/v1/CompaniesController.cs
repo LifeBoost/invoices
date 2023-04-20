@@ -3,10 +3,13 @@ using API.Configuration;
 using Application.Companies.CreateCompany;
 using Application.Companies.DeleteCompany;
 using Application.Companies.DeleteCompany;
+using Application.Companies.GetAllCompanies;
+using Application.Companies.GetCompanyById;
 using Application.Companies.UpdateCompany;
 using Domain.Companies;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using CompanyDTO = Application.Companies.CreateCompany.CompanyDTO;
 
 namespace API.Companies.v1;
 
@@ -78,19 +81,23 @@ public class CompaniesController: AbstractController
         return NoContent();
     }
 
-    // [Route("{companyId:guid}")]
-    // [HttpGet]
-    // [ProducesResponseType(typeof(CompanyDTO), (int)HttpStatusCode.OK)]
-    // public async Task<IActionResult> GetCompanyById(Guid companyId)
-    // {
-    //     
-    // }
-    //
-    // [Route("")]
-    // [HttpGet]
-    // [ProducesResponseType(typeof(CompanyDTO), (int)HttpStatusCode.OK)]
-    // public async Task<IActionResult> GetAllCompanies()
-    // {
-    //     
-    // }
+    [Route("{companyId:guid}")]
+    [HttpGet]
+    [ProducesResponseType(typeof(Application.Companies.CompanyDTO), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> GetCompanyById(Guid companyId)
+    {
+        var company = await _mediator.Send(new GetCompanyByIdQuery(companyId, GetUserId()));
+
+        return Ok(company);
+    }
+
+    [Route("")]
+    [HttpGet]
+    [ProducesResponseType(typeof(CompanyDTO), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> GetAllCompanies()
+    {
+        var companies = await _mediator.Send(new GetAllCompaniesQuery(GetUserId()));
+
+        return Ok(companies);
+    }
 }

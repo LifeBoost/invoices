@@ -1,6 +1,6 @@
 ﻿using System.Security.Authentication;
-using System.Security.Claims;
 using Application.Configuration.Validation;
+using Domain.Companies.Exceptions;
 using Domain.SeedWork;
 
 namespace API.Configuration;
@@ -39,6 +39,16 @@ public class ApplicationExceptionsMiddleware
             };
 
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await context.Response.WriteAsJsonAsync(response);
+        }
+        catch (CompanyNotFoundException exception)
+        {
+            var response = new
+            {
+                error = exception.Message
+            };
+
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
             await context.Response.WriteAsJsonAsync(response);
         }
     }

@@ -18,6 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.OperationFilter<AuthorizationHeaderSwaggerAttribute>();
+    c.CustomSchemaIds(type => type.ToString());
 });
 builder.Services.AddMediatR(cfg =>
 {
