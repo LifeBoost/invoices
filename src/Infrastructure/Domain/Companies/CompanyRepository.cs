@@ -120,6 +120,8 @@ public class CompanyRepository : ICompanyRepository
         parameters.Add("PhoneNumber", company.PhoneNumber, DbType.String);
         parameters.Add("UpdatedAt", DateTime.Now, DbType.Date);
 
+        await _addressRepository.SaveAsync(company.Address, company.UserId);
+        
         using var connection = _context.CreateConnection();
         await connection.ExecuteAsync(query, parameters);
     }

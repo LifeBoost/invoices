@@ -93,7 +93,7 @@ public class CompaniesController: AbstractController
 
     [Route("")]
     [HttpGet]
-    [ProducesResponseType(typeof(CompanyDTO), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(Application.Companies.CompanyDTO), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetAllCompanies()
     {
         var companies = await _mediator.Send(new GetAllCompaniesQuery(GetUserId()));
