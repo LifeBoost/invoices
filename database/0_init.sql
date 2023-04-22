@@ -40,3 +40,18 @@ create table if not exists contractors
     constraint contractors_pk primary key (`id`),
     constraint contractors_addresses_id_fk foreign key (`addresses_id`) references addresses (`id`) ON DELETE SET NULL
 );
+
+create table if not exists bank_accounts
+(
+    id varchar(36) not null unique,
+    users_id varchar(36) not null,
+    companies_id varchar(36) not null,
+    name varchar(255) not null,
+    bank_name varchar(255) not null,
+    bank_account_number varchar(255) not null,
+    currency_code enum('PLN', 'USD', 'EUR') not null,
+    created_at timestamp default now() not null,
+    updated_at timestamp,
+    constraint bank_accounts_pk primary key (`id`), 
+    constraint bank_accounts_companies_id_fk foreign key (`companies_id`) references companies (`id`) ON DELETE CASCADE
+);

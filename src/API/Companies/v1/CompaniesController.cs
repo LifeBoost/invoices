@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using API.Configuration;
+using Application.BankAccounts;
+using Application.BankAccounts.GetAllBankAccountsByCompanyId;
 using Application.Companies.CreateCompany;
-using Application.Companies.DeleteCompany;
 using Application.Companies.DeleteCompany;
 using Application.Companies.GetAllCompanies;
 using Application.Companies.GetCompanyById;
@@ -43,7 +44,7 @@ public class CompaniesController: AbstractController
                 request.ZipCode
             )
         );
-        
+
         return Created(string.Empty, company);
     }
 
@@ -99,5 +100,15 @@ public class CompaniesController: AbstractController
         var companies = await _mediator.Send(new GetAllCompaniesQuery(GetUserId()));
 
         return Ok(companies);
+    }
+
+    [Route("{companyId:guid}/bank-accounts")]
+    [HttpGet]
+    [ProducesResponseType(typeof(BankAccountDto), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> GetAllBankAccounts(Guid companyId)
+    {
+        var bankAccounts = await _mediator.Send(new GetAllBankAccountsByCompanyIdQuery(companyId, GetUserId()));
+
+        return Ok(bankAccounts);
     }
 }

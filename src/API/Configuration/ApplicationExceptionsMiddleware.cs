@@ -1,5 +1,6 @@
 ﻿using System.Security.Authentication;
 using Application.Configuration.Validation;
+using Domain.BankAccounts.Exceptions;
 using Domain.Companies.Exceptions;
 using Domain.Contractors.Exceptions;
 using Domain.SeedWork;
@@ -50,7 +51,7 @@ public class ApplicationExceptionsMiddleware
                 return;
             }
 
-            if (exception is CompanyNotFoundException or ContractorNotFoundException)
+            if (exception is CompanyNotFoundException or ContractorNotFoundException or BankAccountNotFoundException)
             {
                 var response = new
                 {
@@ -59,7 +60,11 @@ public class ApplicationExceptionsMiddleware
 
                 context.Response.StatusCode = StatusCodes.Status404NotFound;
                 await context.Response.WriteAsJsonAsync(response);
+
+                return;
             }
+
+            throw;
         }
     }
 }

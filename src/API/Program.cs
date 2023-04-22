@@ -3,12 +3,14 @@ using Application.Companies.CreateCompany;
 using Application.Companies.DomainServices;
 using Application.Configuration.Validation;
 using Application.Contractors.DomainServices;
+using Domain.BankAccounts;
 using Domain.Companies;
 using Domain.Contractors;
 using Domain.Users;
 using FluentValidation;
 using Infrastructure.Database;
 using Infrastructure.Domain.Addresses;
+using Infrastructure.Domain.BankAccounts;
 using Infrastructure.Domain.Companies;
 using Infrastructure.Domain.Contractors;
 using Infrastructure.Domain.Users;
@@ -38,6 +40,7 @@ builder.Services.AddScoped<IContractorUniquenessChecker, ContractorUniquenessChe
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<AddressRepository>();
 builder.Services.AddScoped<IContractorRepository, ContractorMysqlDatabaseRepository>();
+builder.Services.AddScoped<IBankAccountRepository, BankAccountMysqlDatabaseRepository>();
 
 // Database
 builder.Services.AddScoped<IUserContext, AuthenticationServiceUserContext>(_ => new AuthenticationServiceUserContext(builder.Configuration["AuthorizationService:BaseUrl"]));

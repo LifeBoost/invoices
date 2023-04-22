@@ -1,0 +1,27 @@
+﻿<Properties StartupConfiguration="{3B029CA2-EF51-4660-8F08-8F33EE678C34}|https">
+  <MonoDevelop.Ide.ItemProperties.src.API PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/API/API.csproj">
+    <Files>
+      <File FileName="src/Application/BankAccounts/DeleteBankAccount/DeleteBankAccountCommand.cs" Line="20" Column="1" />
+      <File FileName="src/Application/BankAccounts/GetAllBankAccounts/GetAllBankAccountsQueryHandler.cs" Line="29" Column="1" />
+      <File FileName="src/API/API.csproj" Line="15" Column="52" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="InvoicesMicroservice" expanded="True">
+            <Node name="src" expanded="True">
+              <Node name="API" expanded="True" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MultiItemStartupConfigurations />
+</Properties>

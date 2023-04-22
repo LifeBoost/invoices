@@ -16,4 +16,18 @@
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="BankAccounts\" />
+      <None Remove="BankAccounts\CreateBankAccount\" />
+      <None Remove="BankAccounts\UpdateBankAccount\" />
+      <None Remove="BankAccounts\DeleteBankAccount\" />
+      <None Remove="BankAccounts\GetOneBankAccountById\" />
+      <None Remove="BankAccounts\GetAllBankAccounts\" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="BankAccounts\CreateBankAccount\" />
+      <Folder Include="BankAccounts\UpdateBankAccount\" />
+      <Folder Include="BankAccounts\DeleteBankAccount\" />
+      <Folder Include="BankAccounts\GetAllBankAccounts\" />
+    </ItemGroup>
 </Project>
