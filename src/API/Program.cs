@@ -6,6 +6,7 @@ using Application.Contractors.DomainServices;
 using Domain.BankAccounts;
 using Domain.Companies;
 using Domain.Contractors;
+using Domain.Invoices;
 using Domain.Users;
 using FluentValidation;
 using Infrastructure.Database;
@@ -13,6 +14,7 @@ using Infrastructure.Domain.Addresses;
 using Infrastructure.Domain.BankAccounts;
 using Infrastructure.Domain.Companies;
 using Infrastructure.Domain.Contractors;
+using Infrastructure.Domain.Invoices;
 using Infrastructure.Domain.Users;
 using MediatR;
 
@@ -41,6 +43,7 @@ builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<AddressRepository>();
 builder.Services.AddScoped<IContractorRepository, ContractorMysqlDatabaseRepository>();
 builder.Services.AddScoped<IBankAccountRepository, BankAccountMysqlDatabaseRepository>();
+builder.Services.AddScoped<IInvoiceRepository, InvoiceMysqlDatabaseRepository>();
 
 // Database
 builder.Services.AddScoped<IUserContext, AuthenticationServiceUserContext>(_ => new AuthenticationServiceUserContext(builder.Configuration["AuthorizationService:BaseUrl"]));
